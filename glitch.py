@@ -211,9 +211,9 @@ def routineCycle(routine_dict = routine_dict):
     
     instructions = {"*"*80 + "\n\nStart by meditating of praying\n\nChoose Z to start, M to skip\n\n" + "*"*80 : "magic",
                    "*"*80 + "\n\nSleepy? If you are take a nap\n\nChoose Z to start, M to skip\n\n" + "*"*80 : "sleep",
+                   "*"*80 + "\n\nIs everything organized? Take 20 minutes\n\nChoose Z to start, M to skip\n\n" + "*"*80 : "order",
                    "*"*80 + "\n\nHungry? Eat something if you are\n\nChoose Z to start, M to skip\n\n" + "*"*80 : "food",
                    "*"*80 + "\n\nHave you moved your body yet?\n\nChoose Z to start, M to skip\n\n" + "*"*80 : "exercise",
-                   "*"*80 + "\n\nIs everything organized? Take 20 minutes\n\nChoose Z to start, M to skip\n\n" + "*"*80 : "order",
                    "*"*80 + "\n\nAre you entertained? Do something for an hour\n\nChoose Z to start, M to skip\n\n" + "*"*80 : "fun",
                    "*"*80 + "\n\nHave you checked all your messages?\n\nChoose Z to start, M to skip\n\n" + "*"*80 : "messages"}
     
@@ -1239,7 +1239,7 @@ def modifyProject(project_list = project_list):
 
         for key in project_list:
 
-            if project_list[key].project_status != "ongoing":
+            if project_list[key].status != "ongoing":
 
                 continue
 
@@ -1565,7 +1565,7 @@ def modifyProject(project_list = project_list):
                                         
                                         print("Please choose the right ID")
 
-                                current_milestone_id = phase_display.loc[phase_display.phase_id == curr_phase_id, "milestone_id"].values
+                                current_milestone_id = phase_display.loc[phase_display.phase_id == curr_phase_id, "milestone_id"].values[0]
                             
                                 current_phase_dict = {}
 
