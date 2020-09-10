@@ -227,7 +227,85 @@ def routineCycle(routine_dict = routine_dict):
 
             answer = str(input()).lower()
 
-            if answer == "z":
+            if (instructions[key] == "magic") & (answer == "z"):
+
+                magic_time_loop_var = 0
+
+                while magic_time_loop_var == 0:
+
+                    clear()
+
+                    print("-" * 80 + "\n")
+        
+                    print("For how long will you do it? Indicate the number of minutes")
+        
+                    print("\n"+ "-" * 80)
+
+                    try:
+
+                        mag_time = int(input())
+
+                        magic_time_loop_var = 1
+
+                    except:
+
+                        print("Please choose a valid number. Press ENTER to try again")
+
+                        input()
+
+                act_date = time.time()
+
+                clear()
+    
+                print("-" * 80 + "\n")
+    
+                print("Session start!")
+    
+                print("\n"+ "-" * 80)
+
+                playsound("start.mp3")
+    
+                clear()
+
+                for minutes in range(mag_time - 1, -1, -1):
+
+                    for seconds in range(60, 0, -1):
+            
+                        print("-" * 80 + "\n")
+
+                        print(f"Remaining session time: " + "{:02d}".format(minutes) + ":" + "{:02d}".format(seconds))
+            
+                        print("\n"+ "-" * 80)
+
+                        time.sleep(1)
+
+                        clear()
+            
+                print("-" * 80 + "\n")
+            
+                print("Session ended")
+    
+                print("\n"+ "-" * 80)
+
+                playsound("end.mp3")
+
+                print("-"*80, "\nPress ENTER to continue\n\n", "-"*80, sep = "")
+
+                input()
+
+                act_elapsed = time.time() - act_date
+
+                if use_diff == 0:
+
+                    routine_dict[str(date.today())][value] = act_elapsed
+
+                elif use_diff == 1:
+
+                    routine_dict[str(date.today()) + diff_var][value] = act_elapsed
+
+                break
+
+            elif answer == "z":
 
                 act_date = time.time()
 
@@ -247,7 +325,7 @@ def routineCycle(routine_dict = routine_dict):
 
                 break
 
-            if answer == "m":
+            elif answer == "m":
 
                 print("-"*80, "\nSkipped\n\n", "-"*80, sep = "")
 
@@ -659,7 +737,7 @@ def addProject(project_list = project_list):
     
     return project_list
 
-def projectWork(project_list = project_list):
+def projectWork(project_list = project_list, curr_iterations = 1):
     
     clear()
     
@@ -728,7 +806,7 @@ def projectWork(project_list = project_list):
             
             clear()
 
-            for iterations in range(1, 8):
+            for iterations in range(curr_iterations, 8):
     
                 print("-" * 80 + "\n")
     
@@ -859,8 +937,10 @@ def projectWork(project_list = project_list):
                                 clear()
 
                         save_object(obj = project_list, filename = "project_list.pkl")
+
+                        playsound("start.mp3")
             
-                        projectWork()
+                        projectWork(curr_iterations = iterations + 1)
             
                     else:
             
@@ -1573,9 +1653,11 @@ def modifyProject(project_list = project_list):
 
                                 current_phase_dict["Deadline"] = project_list[current_id].milestone_list[current_milestone_id].phase_list[curr_phase_id].deadline
 
+                                current_phase_dict["Status"] = project_list[current_id].milestone_list[current_milestone_id].phase_list[curr_phase_id].status
+
                                 changes_dict = {}
 
-                                change_var_list = ["deliverable", "deadline"]
+                                change_var_list = ["deliverable", "deadline", "status"]
 
                                 change_var = 0
 
@@ -1613,11 +1695,15 @@ def modifyProject(project_list = project_list):
                                         
                                         changes_dict["elapsed_time"] = project_list[current_id].milestone_list[current_milestone_id].phase_list[curr_phase_id].elapsed_time
 
-                                        changes_dict["status"] = "ongoing"
-
                                         changes_dict["start_date"] = project_list[current_id].milestone_list[current_milestone_id].phase_list[curr_phase_id].start_date
 
-                                        changes_dict["completion_date"] = 0
+                                        if changes_dict["status"] == "ongoing":
+                                        
+                                            changes_dict["completion_date"] = 0
+
+                                        else:
+
+                                            changes_dict["completion_date"] = str(time.time())
 
                                         project_list[current_id].mod_phase(milestone_id = current_milestone_id, phase_id = curr_phase_id, **changes_dict)
                                         

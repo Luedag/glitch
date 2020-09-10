@@ -1,0 +1,4 @@
+-Social and networking model
+-Chores model
+-Stakeholder assignment correction
+-Mobile deployment, UX/UI
